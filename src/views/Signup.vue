@@ -90,7 +90,7 @@ export default {
             this.clientData.firstname = "";
             this.clientData.lastname = "";
             this.clientData.age = "";
-            this.$router.push("/reference/" + data.reference);
+            this.$router.push("/home");
 
         },
     },

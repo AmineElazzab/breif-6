@@ -3,7 +3,7 @@
 // include_once '../Database/DB.php';
 // include_once '../models/User.php';
 
- class UserController //UtilisateurController
+class UserController //UtilisateurController
 {
 
     public function addUser() //ajouterUtil
@@ -21,29 +21,28 @@
         $user->setAge($data->age);
         $tab = array("reference" => $ref,   "firstname" => $data->firstname, "lastname" => $data->lastname, "age" => $data->age);
         $user->addUser($tab);
-       
         echo json_encode($tab);
     }
 
 
-    public function nbru($nom)  // generate random number
+    public function nbru($lastname)  // generate random number
     {
         $user = new User();
         $nb = $user->count();
         $ran = rand();
-        return $nom . $nb['nb'] . $ran;
+        return $lastname . $nb['nb'] . $ran;
     }
 
-    // public function getone($ref)
-    // {
-    //     header('Access-Control-Allow-Origin: *');
-    //     header('Content-Type: application/json');
-    //     header('Access-Control-Allow-Methods: GET');
-    //     $user = new User();
-    //     $user->setReference($ref);
-    //     $u = $user->editUtil();
-    //     echo json_encode($u);
-    // }
+    public function Signin($ref)
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Methods: GET');
+        $user = new User();
+        $user->setReference($ref);
+        $u = $user->Signin($ref);
+        echo json_encode($u);
+    }
 }
 
        
@@ -71,5 +70,3 @@
 //             );
 //         }
 //     }
-
-

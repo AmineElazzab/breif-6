@@ -22,4 +22,3 @@ class DB
         return $this->con = null;
     }
 }
-
