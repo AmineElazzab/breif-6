@@ -25,4 +25,7 @@ a {
   list-style: none;
   text-decoration: none;
 }
+main{
+  background-color: #000000;
+}
 </style>
