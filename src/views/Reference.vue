@@ -25,7 +25,7 @@
                       </div>
                     </div>
                     <router-link
-                      :to="{ path: '/rdv/' + ref }"
+                      :to="{ path: '/rdv' }"
                       class="btn btn-primary btnref"
                       tag="button"
                       >Login</router-link
@@ -47,7 +47,7 @@
                     />
                     <button
                       class="btn btn-primary btn-lg btnref mt-3"
-                      @click="search()"
+                      @click="search();"
                     >
                       Login
                     </button>
@@ -67,7 +67,9 @@
                 <div
                   class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"
                 >
-                   <img src="https://img.freepik.com/vecteurs-libre/homme-parlant-au-therapeute-dans-son-bureau-patient-assis-dans-fauteuil-parlant-pendant-que-medecin-positif-prend-notes-illustration-vectorielle-pour-conseil-psychologique-concept-psychotherapie_74855-13153.jpg?w=1380" alt="Image" class="img-fluid">
+                
+                 
+                   <img src="../assets/urban-917.gif" alt="Image" class="">
                 </div>
               </div>
             </div>
@@ -88,18 +90,25 @@ export default {
       erreur: "",
     };
   },
+    mounted(){
+    let refer_1=localStorage.getItem('refl');
+     if(!refer){
+         this.$router.push('/');
+     }
+  },
   methods: {
     async search() {
       const response = await fetch(
         "http://localhost/brief-6/back-end/api/User/Signin/" + this.refl
       );
       const data = await response.json();
-
       if (data.message) {
         this.erreur = data.message;
         console.log(this.erreur);
       } else {
-        this.$router.push("/rdv/" + this.refl);
+        localStorage.setItem("refl", this.refl);
+        this.$router.push("/rdv");
+        console.log(this.refl);
       }
     },
   },

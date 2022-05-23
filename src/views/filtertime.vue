@@ -37,9 +37,9 @@
 </template>
 <script>
 /* eslint-disable */
-export default {
-    name: "Reservation",
-    data() {
+export default {        
+    name: "Reservation",    
+    data() {    
         return {
             date: "",
             horaires: [],

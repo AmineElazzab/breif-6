@@ -5,8 +5,8 @@ class User
 
     // private $conn;  
     // private $table = 'users';
-    private  $reference;
-    private  $firstname;
+    private  $reference;        
+    private  $firstname;        
     private  $lastname;
     private  $age;
 
@@ -15,12 +15,13 @@ class User
     //     $this->conn = $db;
     // }
 
-    public function setReference($reference)
+    public function setReference($reference)            // set reference
+   
     {
-        $this->reference = $reference;
+        $this->reference = $reference;      
     }
 
-    public function setFirstName($firstname)
+    public function setFirstName($firstname)    
     {
         $this->firstname = $firstname;
     }
@@ -35,27 +36,27 @@ class User
     }
 
 
-    public function count()
+    public function count()     // count number of users
+   
     {
-
-        $qr = "SELECT count(*) as nb from users";
-        $res = DB::connect()->query($qr)->fetch(PDO::FETCH_ASSOC);
-        return $res;
+        $qr = "SELECT count(*) as nb from users";   // count number of users
+        $res = DB::connect()->query($qr)->fetch(PDO::FETCH_ASSOC);  // execute query
+        return $res;    // return result
     }
 
     public function addUser($tab)  //ajouterU
     {
 
-        $ref = $tab['reference'];
-        $first = $tab['firstname'];
-        $last = $tab['lastname'];
-        $age = $tab['age'];
+        $ref = $tab['reference'];   // get reference
+        $first = $tab['firstname']; // get firstname
+        $last = $tab['lastname'];   // get lastname
+        $age = $tab['age'];        // get age
 
         // $qr='INSERT INTO users (reference, firstname, lastname, age) values("'.$this->reference.'","'.$this->firstname.'","'.$this->lastname.'",'.$this->age.'")';
-        $qr = "INSERT INTO `users` ( `reference`, `firstname`, `lastname`, `age`) values  ( '$ref'  ,'$first','$last','$age') ";
+        $qr = "INSERT INTO `users` ( `reference`, `firstname`, `lastname`, `age`) values  ( '$ref'  ,'$first','$last','$age') ";    // insert data
         // die($qr);
-        $res = DB::connect()->prepare($qr);
-        if ($res->execute()) {
+        $res = DB::connect()->prepare($qr); // prepare query
+        if ($res->execute()) {  // execute query
             return 'ok';
         } else {
             return 'no';
@@ -64,14 +65,14 @@ class User
 
     public function Signin()
     {
-        $qr='SELECT * from users where reference="'.$this->reference.'"';
-        $res=DB::connect()->query($qr);
-       if( $row=$res->fetch(PDO::FETCH_ASSOC)){
+        $qr='SELECT * from users where reference="'.$this->reference.'"';   // select all users
+        $res=DB::connect()->query($qr); // execute query
+       if( $row=$res->fetch(PDO::FETCH_ASSOC)){ 
         return $row;
         
        }
        else{
-        return array("message"=>"la reference entrer est invalid");
+        return array("message"=>"la reference entrer est invalid"); // return message
        }
         
         //    $res->close();

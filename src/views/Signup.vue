@@ -109,7 +109,8 @@ export default {
       this.clientData.lastname = "";
       this.clientData.age = "";
       this.$router.push("/");
-      this.$swal("This is your ID. Please don't lose it.</br>" + data.reference );
+      this.$swal("This is your ID. Please don't lose it. </br>" + data.reference );
+      
     },
   },
 };

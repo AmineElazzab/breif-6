@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                   <div class="text-center">
                   <div class="row">
-            <router-link class="btn btn-sm btn-dark" style="width:10vh"  :to="{ path: '/rdv/' + $route.params.ref }">
+            <router-link class="btn btn-sm btn-dark" style="width:10vh"  :to="{ path: '/rdv/' }">
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
   <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
 </svg></router-link>
@@ -104,6 +104,8 @@
   </section>
 </template>
 <script>
+import { reference } from '@popperjs/core';
+
 export default {
   name: "Reservation",
   data() {
@@ -130,29 +132,41 @@ export default {
       },
     };
   },
+   mounted() {
+    this.refer();
+  },
   methods: {
     async Submt() {
       if (
         this.rdvData.horaire != "Choose a Timeframe" &&
         this.rdvData.typeCons != ""
       ) {
+        
         // GET request using fetch with async/await
-        const response = await fetch(
+        const ref = localStorage.getItem('refl');
+        console.log({ref});
+        let response = await fetch(
           "http://localhost/brief-6/back-end/api/rdv/ajouterRdv",
           {
             method: "POST", // or 'PUT'
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(this.rdvData),
-          }
+            body: JSON.stringify({...this.rdvData,reference: ref}),
+            
+          },
+        
         );
-        this.$router.push("/rdv/" + this.$route.params.ref);
+        this.$router.push("/rdv");
         this.$swal("Success!", "Your reservation has been made!", "success");
       } else {
         this.erreur = "Please fill in all the fields";
       }
     },
+    refer(){
+        this.ref = (localStorage.getItem('refl'));
+        console.log(this.ref);
+        },
     async getTime(val) {
       const response = await fetch(
         "http://localhost/brief-6/back-end/api/rdv/afficherHr/" + val

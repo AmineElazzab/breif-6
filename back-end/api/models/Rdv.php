@@ -1,19 +1,19 @@
 <?php
 
 class Rdv{
-    private  $id;
-    private  $date;
-    private  $horaire;
+    private  $id;   
+    private  $date;     // date du rdv
+    private  $horaire;  // horaire du rdv
     // type de consultation
-    private  $typeCons;
-    private  $reference;
+    private  $typeCons; // type de consultation
+    private  $reference;        // reference du patient
 
-    public function setId($id){
-        $this->id = $id;
+    public function setId($id){     
+        $this->id = $id;    
     }
 
-    public function setDate($date){
-        $this->date = $date;
+    public function setDate($date){     
+        $this->date = $date;    
      }
 
      public function setTypeCons($typeCons){
@@ -30,35 +30,35 @@ class Rdv{
 
      public function ajouterRdv()
     {
-        $qr='INSERT into rendezvous (date,horaire,typeCons,reference) values("'.$this->date.'","'.$this->horaire.'","'.$this->typeCons.'","'.$this->reference.'")';
-        $res=DB::connect()->prepare($qr);
-        if($res->execute()){
-            return 'ok';
+        $qr='INSERT into rendezvous (date,horaire,typeCons,reference) values("'.$this->date.'","'.$this->horaire.'","'.$this->typeCons.'","'.$this->reference.'")';     // requete sql
+        $res=DB::connect()->prepare($qr);   // preparer la requete
+        if($res->execute()){    // executer la requete
+            return 'ok';    // return ok
         }
-        else{
-            return 'no';
+        else{   // else
+            return 'no' ; // return no
         }
 
     }
 
-     public function afficherRdv($ref)
+     public function afficherRdv($ref)      
     {
-        $qr='SELECT * from rendezvous where reference="'.$ref.'" order by id DESC' ;
-        $res=DB::connect()->prepare($qr);
-        $res->execute();
-            return $res->fetchAll(PDO::FETCH_ASSOC);
-            // $res->close();
-            $res=null;
+        $qr='SELECT * from rendezvous where reference="'.$ref.'" order by id DESC' ;    // requete sql
+        $res=DB::connect()->prepare($qr);   // preparer la requete
+        $res->execute();    // executer la requete
+            return $res->fetchAll(PDO::FETCH_ASSOC );   // return les données
+            // $res->close();   // fermer la requete
+            $res=null;  // detruire la requete
         // else{
-            return 'no';
+            return 'no';    // return no
         // }
     }
-    public function afficherHr($date)
+    public function afficherHr($date)       
     {
-        $qr='SELECT horaire from rendezvous where date="'.$date.'"' ;
-        $res=DB::connect()->prepare($qr);
-        $res->execute();
-            return $res->fetchAll(PDO::FETCH_COLUMN);
+        $qr='SELECT horaire from rendezvous where date="'.$date.'"' ;   // requete sql
+        $res=DB::connect()->prepare($qr);   // preparer la requete
+        $res->execute();    // executer la requete
+            return $res->fetchAll(PDO::FETCH_COLUMN);   // return les données
             // $res->close();
             $res=null;
         // else{
@@ -69,27 +69,27 @@ class Rdv{
      public function modifierRdv()
     {
      
-        $qr="UPDATE rendezvous SET date='$this->date',horaire='$this->horaire',typeCons='$this->typeCons' WHERE id=".(int)$this->id;
-        $res=DB::connect()->prepare($qr);
-        if($res->execute()){
-            return 'ok';
+        $qr="UPDATE rendezvous SET date='$this->date',horaire='$this->horaire',typeCons='$this->typeCons' WHERE id=".(int)$this->id;    // requete sql
+        $res=DB::connect()->prepare($qr);   // preparer la requete
+        if($res->execute()){    // executer la requete
+            return 'ok';    
         }
         else{
             return 'no ip';
         }
     }
 
-    public function editRdv()
+    public function editRdv()   
     {
-        $qr='SELECT * from rendezvous where id='.(int)$this->id;
-        $res=DB::connect()->query($qr);
-       if( $row=$res->fetch(PDO::FETCH_ASSOC)){
+        $qr='SELECT * from rendezvous where id='.(int)$this->id;    // requete sql
+        $res=DB::connect()->query($qr);  // preparer la requete
+       if( $row=$res->fetch(PDO::FETCH_ASSOC)){ 
        
         return $row;
         
        }
        else{
-        return array("message"=>"pas de rendez-vous avec cette cle");
+        return array("message"=>"pas de rendez-vous avec cette cle");   // return no
        }
         
         //    $res->close();
@@ -100,8 +100,8 @@ class Rdv{
 
      public function supprimerRdv()
     {
-            $qr="DELETE from rendezvous where id=".(int)$this->id;
-            $res=DB::connect()->query($qr);
+            $qr="DELETE from rendezvous where id=".(int)$this->id;  // requete sql
+            $res=DB::connect()->query($qr); // preparer la requete
     }
 
 

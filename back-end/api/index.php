@@ -2,55 +2,58 @@
 
 // define('URLR','http://localhost/ajax/test/Api');
 
-require 'autoload.php';
-if(isset($_GET['page']))
-$parametrs=explode('/',$_GET['page']);
-if(isset($parametrs[0]) & !empty($parametrs[0]) )
+require 'autoload.php'; // autoload function
+if(isset($_GET['page']))    
+$parametrs=explode('/',$_GET['page']);  // explode url
+if(isset($parametrs[0]) & !empty($parametrs[0]) )   // if url is not empty
+
 {
-    $controller=ucfirst($parametrs[0]);
-    $file='controllers/'.$controller.'Controller'.'.php';
-    if(file_exists($file)){
+    $controller=ucfirst($parametrs[0]); // get first part of url
+    $file='controllers/'.$controller.'Controller'.'.php';   // concatenate path and class name
+    if(file_exists($file)){ // if file exists
   
-        require_once $file;
+        require_once $file; // include file
         
-        $controller=$controller.'Controller';
-        if(class_exists($controller))
+        $controller=$controller.'Controller';   // concatenate class name
+        if(class_exists($controller))       
         {
-            $obj=new $controller();
-            if(isset($parametrs[1]) & !empty($parametrs[1]))
+            $obj=new $controller(); // create object
+            if(isset($parametrs[1]) & !empty($parametrs[1]))    // if url is not empty
+            
             { 
-                $action=$parametrs[1]; 
-                if(method_exists($obj,$action))
+                $action=$parametrs[1];  // get second part of url
+                if(method_exists($obj,$action))  // if method exists
+               
                 {
-                    if (isset($parametrs[2]) && !empty($parametrs[2])) 
+                    if (isset($parametrs[2]) && !empty($parametrs[2]))  
                     {
-                        $obj->$action($parametrs[2]);
+                        $obj->$action($parametrs[2]);   // call method with parameter
                     }else
                     {
 
-                        $obj->$action();
+                        $obj->$action();    // call method without parameter
                     }
                 }else
                 {
-                    http_response_code(404);
-				    echo "<h1>this method doesn't exist</h1>";
+                    http_response_code(404);    // if method doesn't exist
+				    echo "<h1>this method doesn't exist</h1>";  // show error
                 }
 
             }else
             {
-                $action="index";
-                $obj->$action();
+                $action="index";    // if url is empty
+                $obj->$action();    // call method without parameter
             }
         }else
-        {
-            http_response_code(404);
-            echo "<h1>this classe doesn't exist</h1>";
+        {   // if class doesn't exist
+            http_response_code(404);    // show error
+            echo "<h1>this classe doesn't exist</h1>";  // show error
         }
         
 
-    }else
-    {
-        http_response_code(404);
-        echo "<h1>this page doesn't exist</h1>";
+    }else   
+    {   // if file doesn't exist
+        http_response_code(404);    // show error
+        echo "<h1>this page doesn't exist</h1>";    // show error
     }
 }

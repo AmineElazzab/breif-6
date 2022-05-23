@@ -26,19 +26,19 @@ class UserController //UtilisateurController
 
 
     public function nbru($lastname)  // generate random number
-    {
-        $user = new User();
-        $nb = $user->count();
-        $ran = rand();
-        return $lastname . $nb['nb'] . $ran;
+    {                          // to add to lastname
+        $user = new User(); // to get the lastname
+        $nb = $user->count();   // count number of users
+        $ran = rand();      // generate random number
+        return $lastname . $nb['nb'] . $ran;    // concatenate lastname and number of users and random number
     }
 
-    public function Signin($ref)
+    public function Signin($ref)        
     {
-        header('Access-Control-Allow-Origin: *');
-        header('Content-Type: application/json');
-        header('Access-Control-Allow-Methods: GET');
-        $user = new User();
+        header('Access-Control-Allow-Origin: *');   
+        header('Content-Type: application/json');       
+        header('Access-Control-Allow-Methods: GET');    
+        $user = new User();     
         $user->setReference($ref);
         $u = $user->Signin($ref);
         echo json_encode($u);

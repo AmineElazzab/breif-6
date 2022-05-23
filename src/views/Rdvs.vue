@@ -25,7 +25,7 @@
               <div class="row justify-content-center">
                 <div class="container">
         <div class="row">
-        <router-link class="btn btn-dark" style="width:10vh" :to="{ path: '/reservation/' + ref }"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
+        <router-link class="btn btn-dark" style="width:10vh" :to="{ path: '/reservation/' }"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
   <path d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z"/>
   <path d="M13.5 10a.5.5 0 0 1 .5.5V12h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V13h-1.5a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
 </svg></router-link>
@@ -100,6 +100,8 @@
     </section>
 </template>
 <script>
+import router from '@/router';
+
 /* eslint-disable */
 export default {
     name: "RendezVous",
@@ -130,10 +132,10 @@ export default {
             horaires:[],
       }
   },
-  async mounted(){
-    await this.refer();
-     await this.getAll();
-      
+   mounted(){
+     this.refer();
+     this.getAll();
+ 
   },
   methods:{
     async getAll(){
@@ -142,11 +144,12 @@ export default {
     console.log(data);
     this.rdvs=data;
     },
-    refer(){this.ref = this.$route.params.ref},
+    refer(){
+        this.ref = localStorage.getItem('refl');
+        },
     slectU(x){
        this.curentElment=x;
     },
-
     async del() {
         await fetch('http://localhost/brief-6/back-end/api/rdv/supprimerRdv/'+this.curentElment,{
             method:"DELETE",
@@ -154,7 +157,6 @@ export default {
         });
        await this.getAll();
                this.$swal("Success!", "Your reservation has been deleted!", "success");
-
     },
     async edit(x){
         fetch('http://localhost/brief-6/back-end/api/rdv/getoneRdv/'+x)
@@ -188,7 +190,6 @@ export default {
         this.editClient.typeCons='';
         console.log(JSON.stringify(this.editClient));
         this.$swal("Success!", "Your reservation has been update!", "success");
-
         
     },
     cancel(){
@@ -199,7 +200,7 @@ export default {
         this.editClient.typeCons='';
     },
      async getTime(val) {
-            console.log("im in");
+            
             const response = await fetch(
                 "http://localhost/brief-6/back-end/api/rdv/afficherHr/" + val
             );
@@ -207,7 +208,7 @@ export default {
             this.horaires = data;
         },
          async filtrerH (val) {
-            console.log("eeeeeeee");
+            
             await this.getTime(val);
             await (this.editClient.date = val);
             await (this.editClient.reference = this.$route.params.ref);
